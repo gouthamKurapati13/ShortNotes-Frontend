@@ -1,13 +1,16 @@
 import React, { useState } from 'react'
 import Navbar from '../../components/Navbar/Navbar'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import PasswordInput from '../../components/Input/PasswordInput'
 import { validateEmail } from '../../utils/helper'
+import axiosInstance from '../../utils/axiosInstance'
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState(null);
+
+    const navigate = useNavigate();
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -20,6 +23,23 @@ const LoginPage = () => {
         }
         else {
             setErrorMessage(null);
+            try {
+                const response = await axiosInstance.post("/login", { 
+                    email: email, 
+                    password: password 
+                });
+
+                if (response.data && response.data.accessToken) {
+                    localStorage.setItem("token", response.data.accessToken);
+                    navigate("/dashboard");
+                }
+
+            } catch(error) {
+                if (error.response && error.response.data && error.response.data.message)
+                    setErrorMessage(error.response.data.message);
+                else
+                    setErrorMessage("An unexpected error has occured");
+            }
         }
     }
 

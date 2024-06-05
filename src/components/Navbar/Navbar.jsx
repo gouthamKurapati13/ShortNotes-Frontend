@@ -4,31 +4,41 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SearchBar from '../SearchBar/SearchBar';
 
-const Navbar = () => {
+const Navbar = ({userInfo, onSearchNote, handleClearSearch}) => {
 
   const [searchQuery, setSearchQuery] = useState("");
 
-  const navigate = useNavigate;
+  const navigate = useNavigate();
 
-  const handleSearch = () => {}
+  const handleSearch = () => {
+    if (searchQuery)
+      onSearchNote(searchQuery);
+  }
 
   const onLogout = () => {
+    localStorage.clear();
     navigate('/login');
   };
 
   const onClearSearch = () => {
+    handleClearSearch();
     setSearchQuery("");
   }
 
   return (
     <div className='bg-white flex items-center justify-between px-6 py-2 drop-shadow'>
-      <h2 className='text-xl font-bold text-black py-2'>Notes</h2>
-      <SearchBar value={searchQuery} onLogout={onLogout} onChange={({ target }) => {
+      <h2 className='text-xl font-bold text-black py-2'>ShortNotes</h2>
+    {
+      userInfo && 
+      <>
+        <SearchBar value={searchQuery} onLogout={onLogout} onChange={({ target }) => {
           setSearchQuery(target.value);
-        }} 
-        handleSearch={handleSearch} onClearSearch={onClearSearch} 
-      />
-      <ProfileInfo username={"Goutham Kurapati"} />
+          }} 
+          handleSearch={handleSearch} onClearSearch={onClearSearch} 
+        />
+        <ProfileInfo userInfo={userInfo} onLogout={onLogout} />
+      </>
+    }
     </div>
   )
 }

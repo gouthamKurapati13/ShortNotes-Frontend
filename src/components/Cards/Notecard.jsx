@@ -26,7 +26,13 @@ const Notecard = ({
         <p className='text-xs text-slate-600 mt-2'>{content?.slice(0, 60)}</p>
 
         <div className='flex items-center justify-between mt-2'>
-            <div className='text-xs text-slate-500'>{tags}</div>
+            <div className='text-xs text-slate-500'>
+              { tags &&
+                tags.map((tag, index) => (
+                  <span key={index}>#{tag} </span>
+                ))
+              }
+            </div>
 
             <div className='flex items-center gap-2'>
                 <MdCreate
