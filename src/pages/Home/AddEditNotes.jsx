@@ -83,17 +83,17 @@ const AddEditNotes = ({noteData, type, onClose, getAllNotes, showToast}) => {
         <input 
             type="text"
             className='text-2xl text-slate-950 outline-none'
-            placeholder='Go to Gym at 5'
+            placeholder='Add the title for your note here'
             onChange={(e)=>{setTitle(e.target.value);}}
             value={title}
         />
       </div>
       <div className='flex flex-col gap-2 mt-4'>
-        <label className='input-label'>CONTENT</label>
+        <label className='input-label'>DESCRIPTION</label>
         <textarea 
             type="text"
             className='text-sm text-slate-950 outline-none p-2 rounded'
-            placeholder='Content'
+            placeholder='Add the description for your note here'
             rows={10}
             onChange={(e)=>{setDescription(e.target.value);}}
             value={description}
